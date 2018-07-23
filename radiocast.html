@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>RadioCast</title>
+  <style type="text/css">
+    body,
+    html {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0
+    }
+    
+    img {
+      object-fit: contain;
+      float: left;
+    }
+    
+    #main-container {
+      background-image: url("icons/radiocolor512.png");
+      background-position: 50% 30%;
+      background-repeat: no-repeat;
+      background-size: 30%;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    
+    #station-container {}
+    
+    webview {
+      width: 100%;
+      flex-grow: 1;
+      border: none;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  <script src="radiocast.js"></script>
+  <script src="cast_framework.js"></script>
+  <script src="cast_sender.js"></script>
+</head>
+<body>
+  <div id="main-container">
+    <webview partition="persist:partition"></webview>
+    <div id="station-container"></div>
+  </div>
+</body>
+</html>

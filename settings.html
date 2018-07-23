@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>RadioCast Settings</title>
+  <style type="text/css">
+    html, body {
+      height: 100%;
+    }
+    textarea {
+      width: 100%;
+      height: calc(100% - 70px);
+      margin: 0;
+      padding: 0;
+      border: 0;
+      resize: none;
+    }
+    
+    #exportSettings {
+      position: absolute;
+      bottom: 10px;
+      left 10px;
+    }
+    
+    #importSettings {
+      position: absolute;
+      bottom: 10px;
+      left: 80px;
+    }
+    
+    #defaultSettings {
+      position: absolute;
+      bottom: 10px;
+      left: 150px;
+    }
+    
+    #ok {
+      position: absolute;
+      bottom: 10px;
+      right: 70px;
+    }
+    
+    #cancel {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+    }
+  </style>
+  <script src="settings.js"></script>
+</head>
+<body>
+  <textarea id="settings" spellcheck="false"></textarea>
+  <hr>
+  <button id="exportSettings" type="button">Export...</button>
+  <button id="importSettings" type="button">Import...</button>
+  <button id="defaultSettings" type="button">Default</button>
+  <button id="ok" type="button">Ok</button>
+  <button id="cancel" type="button">Cancel</button>
+  <dialog id="dialog"><span id="message"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="dialogOk">Ok</button></dialog>
+</body>
+</html>
