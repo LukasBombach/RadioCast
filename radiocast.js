@@ -17,7 +17,6 @@ window["__onGCastApiAvailable"] = isAvailable => {
           } else {
             var media = e.session.getMediaSession();
             var url = media && media.media && media.media.metadata ? media.media.metadata.subtitle : null;
-            console.log(url);
             if (url) {
               url = url.includes("#") ? url.substring(0, url.indexOf("#")) : url;
               document.querySelector("webview").src = url;
