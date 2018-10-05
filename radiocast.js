@@ -16,11 +16,31 @@ window["__onGCastApiAvailable"] = isAvailable => {
             showWebpage(img);
           } else {
             var media = e.session.getMediaSession();
-            var url = media && media.media && media.media.metadata ? media.media.metadata.subtitle : null;
-            if (url) {
-              url = url.includes("#") ? url.substring(0, url.indexOf("#")) : url;
-              document.querySelector("webview").src = url;
-              document.querySelector("webview").style.visibility = "visible";
+            var name = media && media.media && media.media.metadata ? media.media.metadata.title : null;
+            if (name) {
+              var url = null;
+              chrome.storage.sync.get(null, sync => {
+                var stations = [];
+                for (var item in sync) {
+                  if (!isNaN(Number(item))) {
+                    stations[item] = sync[item];
+                  }
+                }
+                for (i = 0; i < stations.length; i++) {
+                  if (stations[i].name == name) {
+                    url = stations[i].webpage;
+                    break;
+                  }
+                }
+                if (url) {
+                  url = url.includes("#") ? url.substring(0, url.indexOf("#")) : url;
+                  document.querySelector("webview").src = url;
+                  document.querySelector("webview").style.visibility = "visible";
+                }
+                else {
+                  showDefaultWebpage();
+                }
+              });
             } else {
               showDefaultWebpage();
             }
@@ -66,7 +86,7 @@ function loadStream(img) {
   if (img.dataset && img.dataset.icon) {
     mediaInfo.metadata.images = [new chrome.cast.Image(img.dataset.icon)];
   }
-  mediaInfo.metadata.subtitle = img.dataset.webpage || null;
+  //mediaInfo.metadata.subtitle = img.dataset.webpage || null;
   var request = new chrome.cast.media.LoadRequest(mediaInfo);
   var session = cast.framework.CastContext.getInstance().getCurrentSession();
   session.loadMedia(request);
@@ -95,6 +115,13 @@ function showDefaultWebpage() {
 
 document.addEventListener("DOMContentLoaded", () => {
   displayStations();
+  
+  chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+    if (msg == "clear") {
+      var webview = document.querySelector("webview");
+      webview.clearData({}, { cache: true, appcache: true, cookies: true, sessionCookies: true, persistentCookies: true, fileSystems: true, indexedDB: true, localStorage: true, webSQL: true });
+    }
+  });
 });
 
 function displayStations() {

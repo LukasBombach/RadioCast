@@ -16,6 +16,7 @@ chrome.app.runtime.onLaunched.addListener(() => {
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({ id: "settings", title: "Settings", contexts: ["launcher", "page"], documentUrlPatterns: ["chrome-extension://*/radiocast.html"] });
+  chrome.contextMenus.create({ id: "clear", title: "Clear web cache", contexts: ["launcher", "page"], documentUrlPatterns: ["chrome-extension://*/radiocast.html"] });
   chrome.storage.sync.get(null, sync => {
     for (var item in sync) {
       if (!isNaN(Number(item))) {
@@ -27,8 +28,10 @@ chrome.runtime.onInstalled.addListener(() => {
 })
 
 chrome.contextMenus.onClicked.addListener(e => {
-  if(e.menuItemId == "settings") {
+  if (e.menuItemId == "settings") {
     chrome.app.window.create("settings.html", { id: "RadioCastSettings" });
+  } else if (e.menuItemId == "clear") {
+    chrome.runtime.sendMessage("clear");
   }
 });
 
