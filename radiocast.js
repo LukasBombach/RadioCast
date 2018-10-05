@@ -86,7 +86,6 @@ function loadStream(img) {
   if (img.dataset && img.dataset.icon) {
     mediaInfo.metadata.images = [new chrome.cast.Image(img.dataset.icon)];
   }
-  //mediaInfo.metadata.subtitle = img.dataset.webpage || null;
   var request = new chrome.cast.media.LoadRequest(mediaInfo);
   var session = cast.framework.CastContext.getInstance().getCurrentSession();
   session.loadMedia(request);
@@ -115,7 +114,6 @@ function showDefaultWebpage() {
 
 document.addEventListener("DOMContentLoaded", () => {
   displayStations();
-  
   chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (msg == "clear") {
       var webview = document.querySelector("webview");
@@ -150,8 +148,13 @@ function displayStations() {
         if (station.webpage) {
           img.setAttribute("data-webpage", station.webpage);
         }
-        if (station.icon && station.icon.includes(":")) {
-          img.setAttribute("data-icon", station.icon);
+        if (station.icon) {
+          if (station.icon.includes(":")) {
+            img.setAttribute("data-icon", station.icon);
+          }
+          else {
+            img.setAttribute("data-icon", "https://d2dyrotpcjgnzf.cloudfront.net/logos/" + station.icon);
+          }
         }
         img.height = iconSize;
         img.width = iconSize;
