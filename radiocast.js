@@ -2,7 +2,7 @@ window["__onGCastApiAvailable"] = isAvailable => {
   if (isAvailable) {
     var castContext = cast.framework.CastContext.getInstance();
     castContext.setOptions({
-      receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
+      receiverApplicationId: "F1AF6B92",
       autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED,
       resumeSavedSession: true
     });
