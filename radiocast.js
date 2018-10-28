@@ -2,7 +2,7 @@ window["__onGCastApiAvailable"] = isAvailable => {
   if (isAvailable) {
     var castContext = cast.framework.CastContext.getInstance();
     castContext.setOptions({
-      receiverApplicationId: "F1AF6B92",
+      receiverApplicationId: "F1AF6B92", //"A65F413D",
       autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED,
       resumeSavedSession: true
     });
@@ -79,16 +79,20 @@ function imgRightClick(e) {
 }
 
 function loadStream(img) {
-  var mediaInfo = new chrome.cast.media.MediaInfo(img.dataset.stream, "audio/*");
-  mediaInfo.streamType = chrome.cast.media.StreamType.LIVE;
-  mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
-  mediaInfo.metadata.title = img.alt || null;
-  if (img.dataset && img.dataset.icon) {
-    mediaInfo.metadata.images = [new chrome.cast.Image(img.dataset.icon)];
-  }
-  var request = new chrome.cast.media.LoadRequest(mediaInfo);
-  var session = cast.framework.CastContext.getInstance().getCurrentSession();
-  session.loadMedia(request);
+  chrome.storage.sync.get(["castWebpage", "defaultWebpage"], result => {
+    var mediaInfo = new chrome.cast.media.MediaInfo(img.dataset.stream, "audio/*");
+    mediaInfo.streamType = chrome.cast.media.StreamType.LIVE;
+    mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
+    mediaInfo.metadata.title = img.alt || null;
+    if (img.dataset && img.dataset.icon) {
+      mediaInfo.metadata.images = [new chrome.cast.Image(img.dataset.icon)];
+    }
+    mediaInfo.customData = { webpage: img.dataset.webpage || result.defaultWebpage };
+    var loadRequest = new chrome.cast.media.LoadRequest(mediaInfo);
+    loadRequest.customData = { castWebpage: result.castWebpage };
+    var session = cast.framework.CastContext.getInstance().getCurrentSession();
+    session.loadMedia(loadRequest);
+  });
 }
 
 function showWebpage(img) {

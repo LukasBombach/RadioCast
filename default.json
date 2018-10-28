@@ -2,6 +2,7 @@
   "iconSize": 50,
   "framelessWindow": false,
   "defaultWebpage": "",
+  "castWebpage": false,
   "stations": [
     { "name": "SR P1", "icon": "srp1.png", "stream": "https://http-live.sr.se/p1-aac-192", "webpage": "https://sverigesradio.se/p1" },
     { "name": "SR P2", "icon": "srp2.png", "stream": "https://http-live.sr.se/p2musik-aac-192", "webpage": "https://sverigesradio.se/p2" },

@@ -48,7 +48,7 @@ function ok() {
     return;
   }
   chrome.storage.local.set({ "iconSize": settings.iconSize, "framelessWindow": settings.framelessWindow });
-  chrome.storage.sync.set({ "defaultWebpage": settings.defaultWebpage });
+  chrome.storage.sync.set({ "defaultWebpage": settings.defaultWebpage, "castWebpage": settings.castWebpage });
   chrome.storage.sync.get(null, sync => {
     var stationCount = 0;
     for (var item in sync) {
@@ -86,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
     settings.framelessWindow = local.framelessWindow || false;
     chrome.storage.sync.get(null, sync => {
       settings.defaultWebpage = sync.defaultWebpage || "";
+      settings.castWebpage = sync.castWebpage || false;
       var stations = [];
       for (var item in sync) {
         if (!isNaN(Number(item))) {
